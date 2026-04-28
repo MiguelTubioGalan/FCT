@@ -52,8 +52,9 @@ CREATE TABLE Usuarios (
     id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL, -- Aquí guardarás el hash, nunca plano
+    password VARCHAR(255) NOT NULL,
     direccion_envio TEXT,
+    rol ENUM('Cliente', 'Admin') DEFAULT 'Cliente',
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -64,6 +65,7 @@ CREATE TABLE Reseñas (
     id_vino INT,
     puntuacion TINYINT CHECK (puntuacion BETWEEN 1 AND 5),
     comentario TEXT,
+    estado ENUM('Publico', 'Oculto', 'Editado_Admin') DEFAULT 'Publico', -- AÑADIDO: Control de moderación
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario) ON DELETE CASCADE,
     FOREIGN KEY (id_vino) REFERENCES Vinos(id_vino) ON DELETE CASCADE
